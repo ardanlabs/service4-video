@@ -1,6 +1,9 @@
 # For full Kind v0.17 release notes: https://github.com/kubernetes-sigs/kind/releases/tag/v0.17.0
 
 run:
+	go run app/services/sales-api/main.go | go run app/tooling/logfmt/main.go
+
+run-help:
 	go run app/services/sales-api/main.go --help
 
 tidy:
@@ -51,7 +54,7 @@ dev-restart:
 	kubectl rollout restart deployment sales --namespace=sales-system
 
 dev-logs:
-	kubectl logs --namespace=sales-system -l app=sales --all-containers=true -f --tail=100 --max-log-requests=6
+	kubectl logs --namespace=sales-system -l app=sales --all-containers=true -f --tail=100 --max-log-requests=6 | go run app/tooling/logfmt/main.go -service=SALES-API
 
 dev-describe:
 	kubectl describe nodes

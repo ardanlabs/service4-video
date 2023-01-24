@@ -39,3 +39,13 @@ dev-status:
 	kubectl get nodes -o wide
 	kubectl get svc -o wide
 	kubectl get pods -o wide --watch --all-namespaces
+
+dev-load:
+	kind load docker-image sales-api:$(VERSION) --name $(KIND_CLUSTER)
+
+dev-apply:
+	kustomize build zarf/k8s/dev/sales | kubectl apply -f -
+	kubectl wait --timeout=120s --namespace=sales-system --for=condition=Available deployment/sales
+
+dev-restart:
+	kubectl rollout restart deployment sales --namespace=sales-system

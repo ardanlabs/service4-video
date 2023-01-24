@@ -1,0 +1,10 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- ../../base/sales/
+patchesStrategicMerge:
+- ./dev-sales-patch.yaml
+images:
+- name: sales-api-image
+  newName: sales-api
+  newTag: "1.0"

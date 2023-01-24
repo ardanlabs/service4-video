@@ -4,6 +4,7 @@
 # go install github.com/divan/expvarmon@latest
 #
 # http://sales-service.sales-system.svc.cluster.local:4000/debug/pprof
+# curl -il sales-service.sales-system.svc.cluster.local:4000/debug/vars
 
 run:
 	go run app/services/sales-api/main.go | go run app/tooling/logfmt/main.go

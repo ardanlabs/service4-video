@@ -1,4 +1,7 @@
 # For full Kind v0.17 release notes: https://github.com/kubernetes-sigs/kind/releases/tag/v0.17.0
+#
+# Other commands to install.
+# go install github.com/divan/expvarmon@latest
 
 run:
 	go run app/services/sales-api/main.go | go run app/tooling/logfmt/main.go
@@ -9,6 +12,9 @@ run-help:
 tidy:
 	go mod tidy
 	go mod vendor
+
+metrics-view:
+	expvarmon -ports="sales-service.sales-system.svc.cluster.local:4000" -vars="build,requests,goroutines,errors,panics,mem:memstats.Alloc"
 
 # ==============================================================================
 # Building containers

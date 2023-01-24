@@ -49,3 +49,16 @@ dev-apply:
 
 dev-restart:
 	kubectl rollout restart deployment sales --namespace=sales-system
+
+dev-logs:
+	kubectl logs --namespace=sales-system -l app=sales --all-containers=true -f --tail=100 --max-log-requests=6
+
+dev-describe:
+	kubectl describe nodes
+	kubectl describe svc
+
+dev-describe-deployment:
+	kubectl describe deployment --namespace=sales-system sales
+
+dev-describe-sales:
+	kubectl describe pod --namespace=sales-system -l app=sales

@@ -1,7 +1,7 @@
 # For full Kind v0.17 release notes: https://github.com/kubernetes-sigs/kind/releases/tag/v0.17.0
 
 run:
-	go run app/services/sales-api/main.go
+	go run app/services/sales-api/main.go --help
 
 tidy:
 	go mod tidy

@@ -51,17 +51,17 @@ TELEPRESENCE := docker.io/datawire/tel2:2.10.4
 
 KIND_CLUSTER := ardan-starter-cluster
 
-dev-tel:
-	kind load docker-image $(TELEPRESENCE) --name $(KIND_CLUSTER)
-	telepresence --context=kind-$(KIND_CLUSTER) helm install
-	telepresence --context=kind-$(KIND_CLUSTER) connect
-
 dev-up:
 	kind create cluster \
 		--image kindest/node:v1.25.3@sha256:f52781bc0d7a19fb6c405c2af83abfeb311f130707a0e219175677e366cc45d1 \
 		--name $(KIND_CLUSTER) \
 		--config zarf/k8s/dev/kind-config.yaml
 	kubectl wait --timeout=120s --namespace=local-path-storage --for=condition=Available deployment/local-path-provisioner
+
+	kind load docker-image $(TELEPRESENCE) --name $(KIND_CLUSTER)
+
+	telepresence --context=kind-$(KIND_CLUSTER) helm install
+	telepresence --context=kind-$(KIND_CLUSTER) connect
 
 dev-down:
 	telepresence quit -s

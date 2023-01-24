@@ -11,6 +11,8 @@ import (
 	"go.uber.org/zap"
 )
 
+var build = "develop"
+
 func main() {
 	log, err := logger.New("SALES-API")
 	if err != nil {

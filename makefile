@@ -51,7 +51,7 @@ TELEPRESENCE := docker.io/datawire/tel2:2.10.4
 
 KIND_CLUSTER := ardan-starter-cluster
 
-dev-up:
+dev-kind:
 	kind create cluster \
 		--image kindest/node:v1.25.3@sha256:f52781bc0d7a19fb6c405c2af83abfeb311f130707a0e219175677e366cc45d1 \
 		--name $(KIND_CLUSTER) \
@@ -61,7 +61,12 @@ dev-up:
 	kind load docker-image $(TELEPRESENCE) --name $(KIND_CLUSTER)
 
 	telepresence --context=kind-$(KIND_CLUSTER) helm install
+
+dev-up: dev-kind
 	telepresence --context=kind-$(KIND_CLUSTER) connect
+
+dev-up-wsl2: dev-kind
+	sudo telepresence --context=kind-$(KIND_CLUSTER) connect
 
 dev-down:
 	telepresence quit -s

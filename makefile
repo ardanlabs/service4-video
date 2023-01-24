@@ -13,6 +13,9 @@ tidy:
 	go mod tidy
 	go mod vendor
 
+metrics-local:
+	expvarmon -ports=":4000" -vars="build,requests,goroutines,errors,panics,mem:memstats.Alloc"
+
 metrics-view:
 	expvarmon -ports="sales-service.sales-system.svc.cluster.local:4000" -vars="build,requests,goroutines,errors,panics,mem:memstats.Alloc"
 

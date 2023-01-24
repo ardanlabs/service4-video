@@ -2,7 +2,10 @@ module github.com/ardanlabs/service
 
 go 1.18
 
-require go.uber.org/zap v1.24.0
+require (
+	go.uber.org/automaxprocs v1.5.1
+	go.uber.org/zap v1.24.0
+)
 
 require (
 	go.uber.org/atomic v1.7.0 // indirect

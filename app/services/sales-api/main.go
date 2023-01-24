@@ -3,7 +3,9 @@ package main
 import (
 	"fmt"
 	"os"
+	"os/signal"
 	"runtime"
+	"syscall"
 
 	"github.com/ardanlabs/service/foundation/logger"
 	"go.uber.org/zap"
@@ -30,6 +32,11 @@ func run(log *zap.SugaredLogger) error {
 	// GOMAXPROCS
 
 	log.Infow("startup", "GOMAXPROCS", runtime.GOMAXPROCS(0))
+	defer log.Infow("shutdown")
+
+	shutdown := make(chan os.Signal, 1)
+	signal.Notify(shutdown, syscall.SIGINT, syscall.SIGTERM)
+	<-shutdown
 
 	return nil
 }

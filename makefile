@@ -79,6 +79,9 @@ dev-down:
 	telepresence quit -s
 	kind delete cluster --name $(KIND_CLUSTER)
 
+dev-kind-down:
+	kind delete cluster --name $(KIND_CLUSTER)
+
 dev-status:
 	kubectl get nodes -o wide
 	kubectl get svc -o wide

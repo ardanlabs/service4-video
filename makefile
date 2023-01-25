@@ -124,7 +124,7 @@ yang-load:
 	kind load docker-image $(TELEPRESENCE) --name $(KIND_CLUSTER)
 
 yang-tel:
-	telepresence --context=kind-$(KIND_CLUSTER) helm install
+	sudo telepresence --context=kind-$(KIND_CLUSTER) helm install
 
 yang-con:
 	sudo telepresence --context=kind-$(KIND_CLUSTER) connect

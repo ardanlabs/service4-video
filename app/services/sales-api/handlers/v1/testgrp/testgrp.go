@@ -2,8 +2,9 @@ package testgrp
 
 import (
 	"context"
-	"encoding/json"
 	"net/http"
+
+	"github.com/ardanlabs/service/foundation/web"
 )
 
 // Status represents a test handler for now.
@@ -13,5 +14,6 @@ func Status(ctx context.Context, w http.ResponseWriter, r *http.Request) error {
 	}{
 		Status: "OK",
 	}
-	return json.NewEncoder(w).Encode(status)
+
+	return web.Respond(ctx, w, status, http.StatusOK)
 }

@@ -110,3 +110,27 @@ dev-describe-tel:
 dev-update: all dev-load dev-restart
 
 dev-update-apply: all dev-load dev-apply
+
+# ===============================================
+
+yang-up:
+	kind create cluster \
+		--image kindest/node:v1.25.3@sha256:f52781bc0d7a19fb6c405c2af83abfeb311f130707a0e219175677e366cc45d1 \
+		--name $(KIND_CLUSTER) \
+		--config zarf/k8s/dev/kind-config.yaml
+	kubectl wait --timeout=120s --namespace=local-path-storage --for=condition=Available deployment/local-path-provisioner
+
+yang-load:
+	kind load docker-image $(TELEPRESENCE) --name $(KIND_CLUSTER)
+
+yang-tel:
+	telepresence --context=kind-$(KIND_CLUSTER) helm install
+
+yang-con:
+	sudo telepresence --context=kind-$(KIND_CLUSTER) connect
+
+yang-quit:
+	telepresence quit -s
+
+yang-down:
+	kind delete cluster --name $(KIND_CLUSTER)

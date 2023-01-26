@@ -30,6 +30,12 @@ metrics-local:
 metrics-view:
 	expvarmon -ports="sales-service.sales-system.svc.cluster.local:4000" -vars="build,requests,goroutines,errors,panics,mem:memstats.Alloc"
 
+test-load-local:
+	hey -m GET -c 100 -n 10000 http://localhost:3000/status
+
+test-load:
+	hey -m GET -c 100 -n 10000 http://sales-service.sales-system.svc.cluster.local:3000/status
+
 # ==============================================================================
 # Building containers
 

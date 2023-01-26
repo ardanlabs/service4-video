@@ -5,6 +5,7 @@ import (
 	"crypto/rsa"
 	"crypto/x509"
 	"encoding/pem"
+	"errors"
 	"fmt"
 	"log"
 	"os"
@@ -20,6 +21,9 @@ func main() {
 }
 
 func run() error {
+
+	// =========================================================================
+	// Generate Private / Public RSA Key
 
 	// Generate a new private key.
 	privateKey, err := rsa.GenerateKey(rand.Reader, 2048)
@@ -65,6 +69,7 @@ func run() error {
 	}
 
 	// =========================================================================
+	// Generate JWT with Signature
 
 	fmt.Print("\n========================================\n\n")
 
@@ -95,15 +100,39 @@ func run() error {
 	token := jwt.NewWithClaims(jwt.GetSigningMethod("RS256"), claims)
 	token.Header["kid"] = "kid1"
 
-	str, err := token.SignedString(privateKey)
+	tokenString, err := token.SignedString(privateKey)
 	if err != nil {
 		return fmt.Errorf("signing token: %w", err)
 	}
 
-	fmt.Println(str)
+	fmt.Println(tokenString)
 
 	// =========================================================================
+	// Validate JWT with Public Key
 
 	fmt.Print("\n========================================\n\n")
+
+	parser := jwt.NewParser(jwt.WithValidMethods([]string{"RS256"}))
+
+	keyFunc := func(token *jwt.Token) (interface{}, error) {
+		switch token.Header["kid"] {
+		case "kid1":
+			return &privateKey.PublicKey, nil
+		default:
+			return nil, errors.New("unknown key")
+		}
+	}
+
+	var clm struct {
+		jwt.RegisteredClaims
+		Roles []string
+	}
+	if _, err := parser.ParseWithClaims(tokenString, &clm, keyFunc); err != nil {
+		return fmt.Errorf("parse with claims: %w", err)
+	}
+
+	fmt.Print("signature validated\n\n")
+	fmt.Printf("%#v", clm)
+
 	return nil
 }

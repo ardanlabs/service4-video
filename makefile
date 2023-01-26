@@ -2,6 +2,7 @@
 #
 # Other commands to install.
 # go install github.com/divan/expvarmon@latest
+# go install github.com/rakyll/hey@latest
 #
 # http://sales-service.sales-system.svc.cluster.local:4000/debug/pprof
 # curl -il sales-service.sales-system.svc.cluster.local:4000/debug/vars

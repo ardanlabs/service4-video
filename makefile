@@ -13,6 +13,9 @@
 # 	$ openssl genpkey -algorithm RSA -out private.pem -pkeyopt rsa_keygen_bits:2048
 # 	$ openssl rsa -pubout -in private.pem -out public.pem
 
+jwt:
+	go run app/scratch/jwt/main.go
+
 status:
 	curl -il sales-service.sales-system.svc.cluster.local:3000/status
 

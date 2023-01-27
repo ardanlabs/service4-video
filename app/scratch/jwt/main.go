@@ -104,7 +104,7 @@ func run() error {
 			ExpiresAt: jwt.NewNumericDate(time.Now().UTC().Add(8760 * time.Hour)),
 			IssuedAt:  jwt.NewNumericDate(time.Now().UTC()),
 		},
-		Roles: []string{"ADMIN"},
+		Roles: []string{"USER"},
 	}
 
 	token := jwt.NewWithClaims(jwt.GetSigningMethod("RS256"), claims)

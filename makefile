@@ -13,6 +13,12 @@
 # 	$ openssl genpkey -algorithm RSA -out private.pem -pkeyopt rsa_keygen_bits:2048
 # 	$ openssl rsa -pubout -in private.pem -out public.pem
 
+live:
+	curl -il sales-service.sales-system.svc.cluster.local:4000/debug/liveness
+
+live-local:
+	curl -il localhost:4000/debug/liveness
+
 jwt:
 	go run app/scratch/jwt/main.go
 

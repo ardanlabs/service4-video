@@ -106,6 +106,8 @@ dev-load:
 	kind load docker-image sales-api:$(VERSION) --name $(KIND_CLUSTER)
 
 dev-apply:
+	kustomize build zarf/k8s/dev/vault | kubectl apply -f -
+
 	kustomize build zarf/k8s/dev/sales | kubectl apply -f -
 	kubectl wait --timeout=120s --namespace=sales-system --for=condition=Available deployment/sales
 

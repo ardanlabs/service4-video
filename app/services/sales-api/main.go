@@ -14,9 +14,9 @@ import (
 	"github.com/ardanlabs/conf/v3"
 	"github.com/ardanlabs/service/app/services/sales-api/handlers"
 	"github.com/ardanlabs/service/business/web/auth"
+	"github.com/ardanlabs/service/business/web/keystore"
 	"github.com/ardanlabs/service/business/web/v1/debug"
 	"github.com/ardanlabs/service/foundation/logger"
-	"github.com/ardanlabs/service/foundation/vault"
 	"go.uber.org/automaxprocs/maxprocs"
 	"go.uber.org/zap"
 )
@@ -106,18 +106,14 @@ func run(log *zap.SugaredLogger) error {
 
 	log.Infow("startup", "status", "initializing authentication support")
 
-	vault, err := vault.New(vault.Config{
-		Address:   cfg.Vault.Address,
-		Token:     cfg.Vault.Token,
-		MountPath: cfg.Vault.MountPath,
-	})
+	keyStore, err := keystore.New()
 	if err != nil {
-		return fmt.Errorf("constructing vault: %w", err)
+		return fmt.Errorf("constructing keystore: %w", err)
 	}
 
 	authCfg := auth.Config{
 		Log:       log,
-		KeyLookup: vault,
+		KeyLookup: keyStore,
 	}
 
 	auth, err := auth.New(authCfg)

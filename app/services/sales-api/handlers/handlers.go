@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/ardanlabs/service/app/services/sales-api/handlers/v1/testgrp"
+	"github.com/ardanlabs/service/business/web/auth"
 	"github.com/ardanlabs/service/business/web/v1/mid"
 	"github.com/ardanlabs/service/foundation/web"
 	"go.uber.org/zap"
@@ -15,6 +16,7 @@ import (
 type APIMuxConfig struct {
 	Shutdown chan os.Signal
 	Log      *zap.SugaredLogger
+	Auth     *auth.Auth
 }
 
 // APIMux constructs a http.Handler with all application routes defined.
@@ -22,6 +24,8 @@ func APIMux(cfg APIMuxConfig) *web.App {
 	app := web.NewApp(cfg.Shutdown, mid.Logger(cfg.Log), mid.Errors(cfg.Log), mid.Metrics(), mid.Panics())
 
 	app.Handle(http.MethodGet, "/status", testgrp.Status)
+
+	app.Handle(http.MethodGet, "/auth", testgrp.Status, mid.Authenticate(cfg.Auth))
 
 	return app
 }

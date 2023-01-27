@@ -143,6 +143,21 @@ func (a *Auth) publicKeyLookup(kid string) (string, error) {
 	return pem, nil
 }
 
+// Authorize attempts to authorize the user with the provided input roles, if
+// none of the input roles are within the user's claims, we return an error
+// otherwise the user is authorized.
+func (a *Auth) Authorize(ctx context.Context, claims Claims, rule string) error {
+	input := map[string]any{
+		"Roles": claims.Roles,
+	}
+
+	if err := a.opaPolicyEvaluation(ctx, opaAuthorization, rule, input); err != nil {
+		return fmt.Errorf("rego evaluation failed : %w", err)
+	}
+
+	return nil
+}
+
 // opaPolicyEvaluation asks opa to evaulate the token against the specified token
 // policy and public key.
 func (a *Auth) opaPolicyEvaluation(ctx context.Context, opaPolicy string, rule string, input any) error {

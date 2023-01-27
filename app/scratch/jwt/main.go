@@ -1,12 +1,11 @@
 package main
 
 import (
-	"crypto/rand"
-	"crypto/rsa"
 	"crypto/x509"
 	"encoding/pem"
 	"errors"
 	"fmt"
+	"io"
 	"log"
 	"os"
 	"time"
@@ -25,10 +24,21 @@ func run() error {
 	// =========================================================================
 	// Generate Private / Public RSA Key
 
-	// Generate a new private key.
-	privateKey, err := rsa.GenerateKey(rand.Reader, 2048)
+	const keyFile = "zarf/keys/54bb2165-71e1-41a6-af3e-7da4a0e1e2c1.pem"
+	file, err := os.Open(keyFile)
 	if err != nil {
-		return fmt.Errorf("generating key: %w", err)
+		return fmt.Errorf("opening key file: %w", err)
+	}
+	defer file.Close()
+
+	privatePEM, err := io.ReadAll(io.LimitReader(file, 1024*1024))
+	if err != nil {
+		return fmt.Errorf("reading auth private key: %w", err)
+	}
+
+	privateKey, err := jwt.ParseRSAPrivateKeyFromPEM([]byte(privatePEM))
+	if err != nil {
+		return fmt.Errorf("parsing public pem: %w", err)
 	}
 
 	// Create a file for the private key information in PEM form.
@@ -98,7 +108,7 @@ func run() error {
 	}
 
 	token := jwt.NewWithClaims(jwt.GetSigningMethod("RS256"), claims)
-	token.Header["kid"] = "kid1"
+	token.Header["kid"] = "54bb2165-71e1-41a6-af3e-7da4a0e1e2c1"
 
 	tokenString, err := token.SignedString(privateKey)
 	if err != nil {

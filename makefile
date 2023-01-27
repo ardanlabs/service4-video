@@ -14,10 +14,10 @@
 # 	$ openssl rsa -pubout -in private.pem -out public.pem
 
 live:
-	curl -il sales-service.sales-system.svc.cluster.local:4000/debug/liveness
+	curl -sS sales-service.sales-system.svc.cluster.local:4000/debug/liveness | jq
 
 live-local:
-	curl -il localhost:4000/debug/liveness
+	curl -sS localhost:4000/debug/liveness | jq
 
 pgcli:
 	pgcli postgresql://postgres:postgres@database-service.sales-system.svc.cluster.local

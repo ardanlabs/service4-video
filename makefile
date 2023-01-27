@@ -13,6 +13,9 @@
 # 	$ openssl genpkey -algorithm RSA -out private.pem -pkeyopt rsa_keygen_bits:2048
 # 	$ openssl rsa -pubout -in private.pem -out public.pem
 
+db:
+	go run app/scratch/db/main.go
+
 live:
 	curl -sS sales-service.sales-system.svc.cluster.local:4000/debug/liveness | jq
 

@@ -36,6 +36,11 @@ github.com/google/uuid
 ## explicit; go 1.10
 github.com/jmoiron/sqlx
 github.com/jmoiron/sqlx/reflectx
+# github.com/lib/pq v1.2.0
+## explicit
+github.com/lib/pq
+github.com/lib/pq/oid
+github.com/lib/pq/scram
 # github.com/open-policy-agent/opa v0.48.0
 ## explicit; go 1.17
 github.com/open-policy-agent/opa/ast

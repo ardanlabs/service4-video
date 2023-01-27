@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/jmoiron/sqlx"
+	_ "github.com/lib/pq" // Calls init function.
 )
 
 // Config is the required properties to use the database.

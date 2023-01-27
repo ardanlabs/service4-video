@@ -19,8 +19,11 @@ jwt:
 status:
 	curl -il sales-service.sales-system.svc.cluster.local:3000/status
 
-status-local:
-	curl -il localhost:3000/status
+auth:
+	curl -il -H "Authorization: Bearer ${TOKEN}" sales-service.sales-system.svc.cluster.local:3000/auth
+
+auth-local:
+	curl -il -H "Authorization: Bearer ${TOKEN}" localhost:3000/auth
 
 run:
 	go run app/services/sales-api/main.go | go run app/tooling/logfmt/main.go

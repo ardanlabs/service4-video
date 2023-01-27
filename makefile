@@ -19,6 +19,12 @@ live:
 live-local:
 	curl -il localhost:4000/debug/liveness
 
+pgcli:
+	pgcli postgresql://postgres:postgres@database-service.sales-system.svc.cluster.local
+
+pgcli-local:
+	pgcli postgresql://postgres:postgres@localhost
+
 jwt:
 	go run app/scratch/jwt/main.go
 

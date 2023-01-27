@@ -18,6 +18,10 @@ spec:
         app: sales
     spec:
       terminationGracePeriodSeconds: 60
+      initContainers:
+      - name: init-db
+        image: sales-api-image
+        command: ['./db']
       containers:
       - name: sales-api
         image: sales-api-image

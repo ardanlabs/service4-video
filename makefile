@@ -157,3 +157,6 @@ dev-update-apply: all dev-load dev-apply
 
 dev-logs-db:
 	kubectl logs --namespace=sales-system -l app=database --all-containers=true -f --tail=100
+
+dev-logs-init:
+	kubectl logs --namespace=sales-system -l app=sales -f --tail=100 -c init-db

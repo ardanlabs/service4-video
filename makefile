@@ -66,6 +66,20 @@ test-load-local:
 test-load:
 	hey -m GET -c 100 -n 10000 http://sales-service.sales-system.svc.cluster.local:3000/status
 
+test-token-local:
+	curl -il --user "admin@example.com:gophers" http://localhost:3000/users/token/54bb2165-71e1-41a6-af3e-7da4a0e1e2c1
+
+test-token:
+	curl -il --user "admin@example.com:gophers" http://sales-service.sales-system.svc.cluster.local:3000/users/token/54bb2165-71e1-41a6-af3e-7da4a0e1e2c1
+
+# export TOKEN="COPY TOKEN STRING FROM LAST CALL"
+
+test-users-local:
+	curl -il -H "Authorization: Bearer ${TOKEN}" http://localhost:3000/users/1/2
+
+test-users:
+	curl -il -H "Authorization: Bearer ${TOKEN}" http://sales-service.sales-system.svc.cluster.local:3000/users/1/2
+
 # ==============================================================================
 # Running tests within the local computer
 # go install honnef.co/go/tools/cmd/staticcheck@latest

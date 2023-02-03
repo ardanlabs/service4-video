@@ -6,6 +6,9 @@ import (
 	"os"
 
 	"github.com/ardanlabs/service/app/services/sales-api/handlers/v1/testgrp"
+	"github.com/ardanlabs/service/app/services/sales-api/handlers/v1/usergrp"
+	"github.com/ardanlabs/service/business/core/user"
+	"github.com/ardanlabs/service/business/core/user/stores/userdb"
 	"github.com/ardanlabs/service/business/web/auth"
 	"github.com/ardanlabs/service/business/web/v1/mid"
 	"github.com/ardanlabs/service/foundation/web"
@@ -25,16 +28,31 @@ type APIMuxConfig struct {
 func APIMux(cfg APIMuxConfig) *web.App {
 	app := web.NewApp(cfg.Shutdown, mid.Logger(cfg.Log), mid.Errors(cfg.Log), mid.Metrics(), mid.Panics())
 
+	authen := mid.Authenticate(cfg.Auth)
+	ruleAdmin := mid.Authorize(cfg.Auth, auth.RuleAdminOnly)
+	ruleAny := mid.Authorize(cfg.Auth, auth.RuleAny)
+
+	// =========================================================================
+
 	tg := testgrp.Handlers{
 		DB: cfg.DB,
 	}
 
 	app.Handle(http.MethodGet, "/status", tg.Status)
+	app.Handle(http.MethodGet, "/auth", tg.Status, authen, ruleAdmin)
 
-	authen := mid.Authenticate(cfg.Auth)
-	admin := mid.Authorize(cfg.Auth, auth.RuleAdminOnly)
+	// =========================================================================
 
-	app.Handle(http.MethodGet, "/auth", tg.Status, authen, admin)
+	ugh := usergrp.Handlers{
+		User: user.NewCore(userdb.NewStore(cfg.Log, cfg.DB)),
+		Auth: cfg.Auth,
+	}
+	app.Handle(http.MethodGet, "/users/token/:kid", ugh.Token)
+	app.Handle(http.MethodGet, "/users/:page/:rows", ugh.Query, authen, ruleAdmin)
+	app.Handle(http.MethodGet, "/users/:id", ugh.QueryByID, ruleAny)
+	app.Handle(http.MethodPost, "/users", ugh.Create, authen, ruleAdmin)
+	app.Handle(http.MethodPut, "/users/:id", ugh.Update, authen, ruleAny)
+	app.Handle(http.MethodDelete, "/users/:id", ugh.Delete, authen, ruleAny)
 
 	return app
 }

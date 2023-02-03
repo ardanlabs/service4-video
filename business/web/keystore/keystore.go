@@ -1,3 +1,4 @@
+// Package keystore provides a simple in-memory key store.
 package keystore
 
 import (

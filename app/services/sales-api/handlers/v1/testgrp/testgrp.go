@@ -1,3 +1,4 @@
+// Package testgrp is for the class.
 package testgrp
 
 import (

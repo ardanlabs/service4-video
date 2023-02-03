@@ -12,6 +12,10 @@
 # 	To generate a private/public key PEM file.
 # 	$ openssl genpkey -algorithm RSA -out private.pem -pkeyopt rsa_keygen_bits:2048
 # 	$ openssl rsa -pubout -in private.pem -out public.pem
+#
+# Testing Coverage
+# 	$ go test -coverprofile p.out
+# 	$ go tool cover -html p.out
 
 db:
 	go run app/scratch/db/main.go

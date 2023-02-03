@@ -16,6 +16,18 @@ github.com/dimfeld/httptreemux/v5
 # github.com/ghodss/yaml v1.0.0
 ## explicit
 github.com/ghodss/yaml
+# github.com/go-playground/locales v0.14.1
+## explicit; go 1.17
+github.com/go-playground/locales
+github.com/go-playground/locales/currency
+github.com/go-playground/locales/en
+# github.com/go-playground/universal-translator v0.18.1
+## explicit; go 1.18
+github.com/go-playground/universal-translator
+# github.com/go-playground/validator/v10 v10.11.2
+## explicit; go 1.18
+github.com/go-playground/validator/v10
+github.com/go-playground/validator/v10/translations/en
 # github.com/gobwas/glob v0.2.3
 ## explicit
 github.com/gobwas/glob
@@ -36,6 +48,9 @@ github.com/google/uuid
 ## explicit; go 1.10
 github.com/jmoiron/sqlx
 github.com/jmoiron/sqlx/reflectx
+# github.com/leodido/go-urn v1.2.1
+## explicit; go 1.13
+github.com/leodido/go-urn
 # github.com/lib/pq v1.2.0
 ## explicit
 github.com/lib/pq
@@ -153,6 +168,18 @@ go.uber.org/zap/internal/bufferpool
 go.uber.org/zap/internal/color
 go.uber.org/zap/internal/exit
 go.uber.org/zap/zapcore
+# golang.org/x/crypto v0.5.0
+## explicit; go 1.17
+golang.org/x/crypto/sha3
+# golang.org/x/sys v0.4.0
+## explicit; go 1.17
+golang.org/x/sys/cpu
+# golang.org/x/text v0.6.0
+## explicit; go 1.17
+golang.org/x/text/internal/language
+golang.org/x/text/internal/language/compact
+golang.org/x/text/internal/tag
+golang.org/x/text/language
 # gopkg.in/yaml.v2 v2.4.0
 ## explicit; go 1.15
 gopkg.in/yaml.v2
